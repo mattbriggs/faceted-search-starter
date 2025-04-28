@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+  meilisearch:
+    image: getmeili/meilisearch:v1.5
+    environment:
+      - MEILI_MASTER_KEY=supersecureapikey
+    ports:
+      - "7700:7700"
+
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    environment:
+      - MEILI_HOST=http://meilisearch:7700
+      - MEILI_API_KEY=supersecureapikey
+    depends_on:
+      - meilisearch
